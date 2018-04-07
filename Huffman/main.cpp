@@ -4,6 +4,7 @@
 int main()
 {
 	int choice;
+	int parent_position;
 	string str,temp;
 	map<char, int> char_count;
 
@@ -20,7 +21,8 @@ int main()
 		{
 		case 1:
 			cout << "请输入一个字符串：" << endl;
-			cin >> str;
+			cin.ignore();
+			getline(cin, str);
 
 			cout << "你所输入的字符串：" << endl;
 			cout << str << endl;
@@ -56,9 +58,15 @@ int main()
 
 		hufftree T;
 		huffman(T, char_count);
-		cout << "遍历哈夫曼树：" << endl;
-		traverse_hufftree(T, 2 * char_count.size() - 1);
 
+		parent_position = get_parent_position(T, 2 * char_count.size() - 1);
+		if (parent_position!=-1)
+		{
+			cout << "遍历哈夫曼树：" << endl;
+			cout << "深度" << "\t" << "权值" << "\t" << "根" << "\t" << "值" << "\t" << "左子树" << "\t" << "右子树" << endl;
+			traverse_hufftree(T, 0, parent_position);
+		}
+		
 		codelist codes;
 		encode(codes, T, char_count.size());
 		cout << "输出每个字符的编码：" << endl;

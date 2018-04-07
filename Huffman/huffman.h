@@ -9,7 +9,7 @@ using namespace std;
 
 typedef char datatype;	//定义元素的数据类型
 
-const int leaves = 256;	//叶子节点数，假设为30
+const int leaves = 256;	//叶子节点数，假设为256
 
 const int nodes = 2 * leaves - 1;	//节点总数
 
@@ -42,12 +42,14 @@ void huffman(hufftree T, map<char, int> _map);	//构建哈夫曼树的函数
 
 void encode(codelist codes, hufftree T, int actual_leaves);	//编码算法
 
-void traverse_hufftree(hufftree T, int depth);	//遍历哈夫曼树的算法
+void traverse_hufftree(hufftree T, int depth, int position);	//遍历哈夫曼树的算法
 
 void print_huffcodes(codelist codes, int actual_leaves);	//输出哈夫曼编码的函数
 
 void compress(string str, string &compressed, codelist codes, hufftree T, int actual_leaves);	//压缩的算法
 
 void decode(string str,codelist codes, hufftree T, int actual_nodes);
+
+int get_parent_position(hufftree T, int depth);
 
 #endif // !HUFFMAN_H

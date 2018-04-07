@@ -80,13 +80,16 @@ void encode(codelist codes,hufftree T,int actual_leaves)
 	}
 }
 
-void traverse_hufftree(hufftree T,int depth)
+void traverse_hufftree(hufftree T,int depth,int position)
 {
-	for (int i=0;i<depth;i++)
+	cout << depth << "\t" << T[position].weight << "\t" << T[position].parent << "\t" << T[position].value << "\t" << T[position].lchild << "\t" << T[position].rchild << endl;
+	if (T[position].lchild != -1 && T[position].rchild != -1)
 	{
-		cout << T[i].weight << "\t";
+		++depth;
+		traverse_hufftree(T, depth, T[position].lchild);
+		traverse_hufftree(T, depth, T[position].rchild);
 	}
-	cout << endl;
+	
 }
 
 void print_huffcodes(codelist codes, int actual_leaves)
@@ -108,7 +111,7 @@ void compress(string str,string &compressed, codelist codes, hufftree T, int act
 	for (unsigned int i = 0; i<str.length(); i++) {
 		for (int j = 0; j<actual_leaves; j++) {
 			if (str[i] == T[j].value) {
-				for (int k = codes[j].start + 1; k < actual_leaves; k++) {
+				for (int k = codes[j].start; k < actual_leaves; k++) {
 					compressed.push_back(codes[j].bits[k] + '0');
 					codecount++;
 				}
@@ -150,4 +153,21 @@ void decode(string str,codelist codes, hufftree T, int actual_nodes)
 		cout << "±àÂëÓÐ´í£¡";
 	}
 	cout << endl;
+
+}
+
+int get_parent_position(hufftree T, int depth)
+{
+	int position;
+
+	for (int i = 0; i < depth; i++)
+	{
+		if (T[i].parent == -1)
+		{
+			position = i;
+			return position;
+		}
+	}
+
+	return -1;
 }
